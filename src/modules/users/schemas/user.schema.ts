@@ -1,7 +1,9 @@
 import * as mongoose from 'mongoose';
 
-export const ModelName = 'Users';
-export const UserSchema = new mongoose.Schema(
+const ModelName = 'Users';
+const RoleModelRef = 'Roles';
+
+const UserSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -18,8 +20,15 @@ export const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    roles: {
+      type: [{ type: mongoose.Types.ObjectId, ref: RoleModelRef }],
+      required: false,
+    },
   },
   {
     timestamps: true,
   },
 );
+
+export { ModelName, UserSchema };

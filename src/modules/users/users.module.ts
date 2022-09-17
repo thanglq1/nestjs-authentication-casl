@@ -5,9 +5,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ModelName, UserSchema } from './schemas/user.schema';
 import { UsersRepository } from './users.repository';
 import * as bcrypt from 'bcryptjs';
+import { RolesModule } from '../roles/roles.module';
 
 @Module({
   imports: [
+    RolesModule,
     // MongooseModule.forFeature([{ name: ModelName, schema: UserSchema }]),
     MongooseModule.forFeatureAsync([
       {

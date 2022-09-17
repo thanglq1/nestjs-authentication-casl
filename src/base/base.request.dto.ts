@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsOptional } from 'class-validator';
 
-export class ListUserDto {
+export class BaseRequestDto {
   @ApiProperty()
   @IsNumber()
   @IsOptional()

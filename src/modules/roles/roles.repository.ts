@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ModelName } from './schemas/user.schema';
-import { UserModel } from './users.model';
 import { BaseRepository } from 'src/base/base.repository';
+import { RoleModel } from './roles.model';
+import { ModelName } from './schemas/role.schema';
 
 @Injectable()
-export class UsersRepository extends BaseRepository<UserModel> {
+export class RoleRepository extends BaseRepository<RoleModel> {
   constructor(@InjectModel(ModelName) model) {
     super(model);
   }
