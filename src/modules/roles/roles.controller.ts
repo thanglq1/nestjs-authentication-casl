@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Query,
@@ -12,7 +11,11 @@ import {
 import { RolesService } from './roles.service';
 
 import { ApiTags } from '@nestjs/swagger';
-import { CreateRoleDto, UpdateRoleDto } from './dto/role.dto';
+import {
+  AssignFeaturePermissionToRole,
+  CreateRoleDto,
+  UpdateRoleDto,
+} from './dto/role.dto';
 import { ListRoleRequestDto } from './dto/role.request.dto';
 
 @ApiTags('Roles')
@@ -46,5 +49,16 @@ export class RolesController {
   @Delete(':id[0-9a-z]{24}')
   deleteRole(@Param('id') roleId: string) {
     return this.rolesService.deleteRole(roleId);
+  }
+
+  @Put(':id/assignFeaturePermissionToRole')
+  assignFeaturePermissionToRole(
+    @Param('id') roleId: string,
+    @Body() assignFeaturePermissionToRole: AssignFeaturePermissionToRole,
+  ) {
+    return this.rolesService.assignFeaturePermissionToRole(
+      roleId,
+      assignFeaturePermissionToRole,
+    );
   }
 }

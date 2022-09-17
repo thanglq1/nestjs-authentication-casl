@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRoleDto, UpdateRoleDto } from './dto/role.dto';
+import {
+  AssignFeaturePermissionToRole,
+  CreateRoleDto,
+  UpdateRoleDto,
+} from './dto/role.dto';
 import { ListRoleRequestDto } from './dto/role.request.dto';
 import { RoleRepository } from './roles.repository';
 
@@ -35,5 +39,22 @@ export class RolesService {
     return await this.roleRepository.findByIdAndUpdate(roleId, {
       $push: { users: userId },
     });
+  }
+
+  async assignFeaturePermissionToRole(
+    roleId: string,
+    assignFeaturePermissionToRole: AssignFeaturePermissionToRole,
+  ) {
+    return await this.roleRepository.findByIdAndUpdate(
+      roleId,
+      {
+        $push: {
+          featurePermissions: {
+            $each: assignFeaturePermissionToRole.featurePermissions,
+          },
+        },
+      },
+      { new: true },
+    );
   }
 }

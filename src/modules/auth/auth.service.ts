@@ -7,7 +7,7 @@ import { IUser } from '../users/interfaces/user.interface';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bycrypt from 'bcryptjs';
-import { expiredIn, jwtSecret } from 'src/constant';
+import { expiredIn, jwtSecret } from 'src/shared/constant';
 
 @Injectable()
 export class AuthService {

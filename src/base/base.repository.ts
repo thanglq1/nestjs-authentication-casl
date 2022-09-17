@@ -1,5 +1,4 @@
-import { Document, PopulateOptions } from 'mongoose';
-import { Model } from 'mongoose';
+import { Document, PopulateOptions, Model } from 'mongoose';
 
 export class BaseRepository<T extends Document> {
   constructor(protected readonly model: Model<T>) {
