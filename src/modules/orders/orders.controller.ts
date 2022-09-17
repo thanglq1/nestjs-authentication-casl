@@ -17,23 +17,28 @@ import { FeaturesType, PermissionsType } from 'src/shared/enums';
 import { CaslAbilityFactory } from '../authz/casl-ability.factory';
 import { CurrentUser } from 'src/decorators/current.user.decorator';
 import { CustomForbiddenException } from 'src/exceptions/forbidden.exception';
+import { AuthzGuard } from '../authz/guards/authz.guard';
 
+// 2 ways to authorization
+// 1. Use decorator CheckPermission and AuthzGuard
+// 2. Use caslAbilityFactory
 @Controller('orders')
 export class OrdersController {
   constructor(
-    private readonly ordersService: OrdersService,
-    private readonly caslAbilityFactory: CaslAbilityFactory,
+    private readonly ordersService: OrdersService, // private readonly caslAbilityFactory: CaslAbilityFactory,
   ) {}
 
   @Post()
-  // @UseGuards(AuthzGuard)
-  // @CheckPermission([PermissionsType.CREATE, FeaturesType.ORDER])
+  @UseGuards(AuthzGuard)
+  @CheckPermission([PermissionsType.CREATE, FeaturesType.ORDER])
   async create(@Body() createOrderDto: CreateOrderDto, @CurrentUser() user) {
-    const ability = await this.caslAbilityFactory.createForUser(user.sub);
-    if (ability.can(PermissionsType.CREATE, FeaturesType.ORDER)) {
-      return this.ordersService.createOrder(createOrderDto);
-    }
-    throw new CustomForbiddenException();
+    return this.ordersService.createOrder(createOrderDto);
+
+    // const ability = await this.caslAbilityFactory.createForUser(user.sub);
+    // if (ability.can(PermissionsType.CREATE, FeaturesType.ORDER)) {
+    //   return this.ordersService.createOrder(createOrderDto);
+    // }
+    // throw new CustomForbiddenException();
   }
 
   @Get()
