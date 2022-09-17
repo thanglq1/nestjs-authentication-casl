@@ -9,6 +9,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt.auth.guard';
 import { RolesModule } from '../roles/roles.module';
 import { OrdersModule } from '../orders/orders.module';
 import { InvoicesModule } from '../invoices/invoices.module';
+import { AuthzModule } from '../authz/authz.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { InvoicesModule } from '../invoices/invoices.module';
     RolesModule,
     InvoicesModule,
     OrdersModule,
+    AuthzModule,
     MongooseModule.forRoot('mongodb://localhost/nestlab'),
   ],
   controllers: [AppController],

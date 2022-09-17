@@ -22,7 +22,7 @@ export class UsersService {
   }
 
   async getUserById(userId: string) {
-    return await this.repository.findById(userId);
+    return await this.repository.findById(userId, {}, {}, [{ path: 'roles' }]);
   }
 
   async findOneUser(query: object) {
