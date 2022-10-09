@@ -32,6 +32,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "google-auth-library": "^8.5.2",
     "mongoose": "^6.6.0",
     "npm-check-updates": "^16.1.2",
     "passport": "^0.6.0",

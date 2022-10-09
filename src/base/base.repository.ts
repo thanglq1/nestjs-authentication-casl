@@ -29,9 +29,9 @@ export class BaseRepository<T extends Document> {
     projection?: object,
     populates: PopulateOptions[] = [],
   ) {
-    return await (
-      await this.model.findOne(query, projection)
-    ).populate(populates);
+    const result = await this.model.findOne(query, projection);
+    if (result) return result.populate(populates);
+    return result;
   }
 
   async findById(
@@ -40,9 +40,9 @@ export class BaseRepository<T extends Document> {
     options?: object,
     populates: PopulateOptions[] = [],
   ) {
-    return await this.model
-      .findById(id, projection, options)
-      .populate(populates);
+    const result = await this.model.findById(id, projection, options);
+    if (result) return result.populate(populates);
+    return result;
   }
 
   async updateMany(filter: object, update: object, options?: object) {

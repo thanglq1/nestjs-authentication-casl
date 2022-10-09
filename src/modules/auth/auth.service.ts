@@ -8,6 +8,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bycrypt from 'bcryptjs';
 import { expiredIn, jwtSecret } from 'src/shared/constant';
+import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
@@ -47,6 +48,34 @@ export class AuthService {
     delete user['_doc'].password;
 
     return user;
+  }
+
+  async googleSignin(token: string) {
+    const clientId =
+      '388861891893-rc5gno6dagli3b2nkb8gn3rvo9c10atm.apps.googleusercontent.com';
+    try {
+      const oAuth2Client = await new OAuth2Client(clientId);
+      const tokenInfo = await oAuth2Client.verifyIdToken({
+        idToken: token,
+        audience: clientId,
+      });
+
+      if (tokenInfo) {
+        const email = tokenInfo.getPayload().email;
+        const username = tokenInfo.getPayload().name;
+        const picture = tokenInfo.getPayload().picture;
+
+        const user = await this.userService.findOneUser({ email });
+        // if (!user) {
+        //   // TODO: User not exist. We can create new user or throw error user does not exist
+        // }
+        // return user;
+      }
+      return tokenInfo;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 
   generateToken(username: string, userId: string, email: string) {
