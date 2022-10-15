@@ -25,6 +25,18 @@ const UserSchema = new mongoose.Schema(
       type: [{ type: mongoose.Types.ObjectId, ref: RoleModelRef }],
       required: false,
     },
+
+    isActive: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+
+    isDeleted: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   {
     timestamps: true,

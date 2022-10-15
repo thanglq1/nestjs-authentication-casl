@@ -5,6 +5,7 @@ import {
   IsString,
   IsEmail,
   IsOptional,
+  IsBoolean,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -32,12 +33,17 @@ export class UpdateUserDto {
   @ApiProperty()
   @IsString()
   @IsOptional()
-  username: string;
+  username?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  password: string;
+  password?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsBoolean()
+  isActive?: boolean;
 }
 
 export class SigninUserDto {

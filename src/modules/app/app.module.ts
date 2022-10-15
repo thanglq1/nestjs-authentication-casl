@@ -10,6 +10,7 @@ import { RolesModule } from '../roles/roles.module';
 import { OrdersModule } from '../orders/orders.module';
 import { InvoicesModule } from '../invoices/invoices.module';
 import { AuthzModule } from '../authz/authz.module';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthzModule } from '../authz/authz.module';
     InvoicesModule,
     OrdersModule,
     AuthzModule,
+    MailModule,
     MongooseModule.forRoot('mongodb://localhost/nestlab'),
   ],
   controllers: [AppController],

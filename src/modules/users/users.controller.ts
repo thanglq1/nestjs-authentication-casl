@@ -9,8 +9,12 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiTags } from '@nestjs/swagger';
-import { ListUserRequestDto } from './dto/user.request.dto';
+import {
+  ListUserRequestDto,
+  VerifyMailRequestDto,
+} from './dto/user.request.dto';
 import { AssignRoleToUserDto, UpdateUserDto } from './dto/user.dto';
+import { Public } from 'src/decorators/public.decorator';
 
 @ApiTags('Users')
 @Controller('users')
@@ -46,5 +50,11 @@ export class UsersController {
       assignRoleToUserDto.roleId,
       assignRoleToUserDto.userId,
     );
+  }
+
+  @Put('verifyMail')
+  @Public()
+  verifyMail(@Body() bodyRequest: VerifyMailRequestDto) {
+    return this.usersService.verifyEmail(bodyRequest.token);
   }
 }

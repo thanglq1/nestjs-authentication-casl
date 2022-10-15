@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { jwtSecret } from 'src/shared/constant';
 import { RolesService } from '../roles/roles.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { ListUserRequestDto } from './dto/user.request.dto';
@@ -9,6 +11,7 @@ export class UsersService {
   constructor(
     private readonly repository: UsersRepository,
     private readonly rolesService: RolesService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async createUser(createUserDto: CreateUserDto) {
@@ -49,5 +52,26 @@ export class UsersService {
       { $push: { roles: roleId } },
       { new: true },
     );
+  }
+
+  async verifyEmail(token: string) {
+    try {
+      const payload = await this.jwtService.verify(token, {
+        secret: jwtSecret,
+      });
+
+      const email = payload.email;
+      const user = await this.findOneUser({ email });
+
+      if (user && user.isActive) {
+        throw new BadRequestException('Email already confirmed');
+      }
+
+      await this.updateUser(user._id, {
+        isActive: true,
+      });
+    } catch (error) {
+      console.log('VerifyEmail Error:::', error);
+    }
   }
 }

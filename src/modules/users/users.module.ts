@@ -6,11 +6,13 @@ import { ModelName, UserSchema } from './schemas/user.schema';
 import { UsersRepository } from './users.repository';
 import * as bcrypt from 'bcryptjs';
 import { RolesModule } from '../roles/roles.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     RolesModule,
     // MongooseModule.forFeature([{ name: ModelName, schema: UserSchema }]),
+    JwtModule.register({}),
     MongooseModule.forFeatureAsync([
       {
         name: ModelName,

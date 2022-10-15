@@ -9,12 +9,14 @@ import { JwtService } from '@nestjs/jwt';
 import * as bycrypt from 'bcryptjs';
 import { expiredIn, jwtSecret } from 'src/shared/constant';
 import { OAuth2Client } from 'google-auth-library';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   async signup(createUser: IUser) {
@@ -25,12 +27,22 @@ export class AuthService {
 
     delete user['_doc'].password;
 
+    //  Send verify mail
+    const url = `http://localhost:3000/confirm/mail?token=${accessToken}`;
+    this.mailService.sendVerifyEmail(
+      createUser.email,
+      createUser.username,
+      url,
+    );
+
     return user;
   }
 
   async signin(email: string, password: string) {
     const user = await this.userService.findOneUser({
       email,
+      isActive: true,
+      isDeleted: false,
     });
 
     if (!user) throw new NotFoundException(`Not found user ${email}`);
