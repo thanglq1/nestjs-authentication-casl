@@ -11,6 +11,7 @@ import { OrdersModule } from '../orders/orders.module';
 import { InvoicesModule } from '../invoices/invoices.module';
 import { AuthzModule } from '../authz/authz.module';
 import { MailModule } from '../mail/mail.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MailModule } from '../mail/mail.module';
     OrdersModule,
     AuthzModule,
     MailModule,
+    ScheduleModule.forRoot(),
     MongooseModule.forRoot('mongodb://localhost/nestlab'),
   ],
   controllers: [AppController],

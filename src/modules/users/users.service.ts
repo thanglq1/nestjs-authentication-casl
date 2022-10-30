@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Cron } from '@nestjs/schedule';
 import { jwtSecret } from 'src/shared/constant';
 import { RolesService } from '../roles/roles.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
@@ -13,6 +14,14 @@ export class UsersService {
     private readonly rolesService: RolesService,
     private readonly jwtService: JwtService,
   ) {}
+
+  @Cron('01 20-22 * * *', {
+    utcOffset: 7,
+  })
+  testCron() {
+    console.log('date:::', new Date());
+    console.log('date-timestamp:::', Date.now());
+  }
 
   async createUser(createUserDto: CreateUserDto) {
     return await this.repository.create(createUserDto);
