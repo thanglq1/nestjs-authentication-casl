@@ -12,9 +12,19 @@ import { InvoicesModule } from '../invoices/invoices.module';
 import { AuthzModule } from '../authz/authz.module';
 import { MailModule } from '../mail/mail.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as Joi from 'joi';
 
+const ENV = process.env.NODE_ENV;
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: !ENV ? '.dev.env' : `.${ENV}.env`,
+      validationSchema: Joi.object({
+        NODE_ENV: Joi.string().valid('dev', 'stg', 'prod').default('dev'),
+        PORT: Joi.number().default(3000),
+      }),
+    }),
     UsersModule,
     AuthModule,
     RolesModule,
@@ -23,7 +33,14 @@ import { ScheduleModule } from '@nestjs/schedule';
     AuthzModule,
     MailModule,
     ScheduleModule.forRoot(),
-    MongooseModule.forRoot('mongodb://localhost/nestlab'),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB_URI'),
+      }),
+      inject: [ConfigService],
+    }),
+    // MongooseModule.forRoot(config.get('MONGO_URI')),
   ],
   controllers: [AppController],
   providers: [
