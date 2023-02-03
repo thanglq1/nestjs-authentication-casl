@@ -57,16 +57,19 @@ After create ses-smtp account success then go to SES => SMTP Setting to get host
 `http://localhost:3000/api/users/verifyMail`
 
 <p>Parameters</p>
+
 ```
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRoYW5nTFEiLCJzdWIiOiI2MzRhNzI3NDA5ZWVkMzBkN2NlZTg1OWIiLCJlbWFpbCI6InRoYW5nbHFAdGVyYWFyay5jb20iLCJpYXQiOjE2NjU4MjMzNDksImV4cCI6MTY2NjQyODE0OX0.knkeR0EMWbuzE9OFhPaFEaudo07YHdWEu5dBr1aPgj8"
 }
 ```
+
 <h4>POST - Create Role</h4>
 
 `http://localhost:3000/api/roles`
 
 <p>Parameters</p>
+
 ```
 {
     "name": "Seller",
@@ -79,6 +82,7 @@ After create ses-smtp account success then go to SES => SMTP Setting to get host
 `http://localhost:3000/api/roles/63254e0455b58996340b4b44/assignFeaturePermissionToRole`
 
 <p>Parameters</p>
+
 ```
 {
     "featurePermissions": [
@@ -99,6 +103,7 @@ After create ses-smtp account success then go to SES => SMTP Setting to get host
 `http://localhost:3000/api/users/assignRoleToUser`
 
 <p>Parameters</p>
+
 ```
 {
     "roleId":"63254e0455b58996340b4b44",
